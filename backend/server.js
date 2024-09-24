@@ -4,14 +4,12 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import taskRoutes from './routes/taskRoutes.js';
 import userRoutes from './routes/userRoutes.js';
-
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-// Arreglar el path del .env al configurar el dotenv, hay que cargarlo manualmente sino da error y no lo encuentra
 dotenv.config({ path: join(__dirname, '.env') });
 
 const corsOptions = {

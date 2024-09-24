@@ -12,6 +12,12 @@ export const Login = () => {
     e.preventDefault();
     const endpoint = isLogged ? 'login' : 'register';
 
+    console.log(
+      `Intentando ${
+        isLogged ? 'iniciar sesión' : 'registrar'
+      } con el usuario: ${username}`
+    );
+
     try {
       const resp = await fetch(`${BACKEND_API}/${endpoint}`, {
         method: 'POST',
@@ -19,9 +25,15 @@ export const Login = () => {
         body: JSON.stringify({ username, password }),
       });
 
+      console.log(
+        `Respuesta del servidor para ${isLogged ? 'login' : 'register'}:`,
+        resp
+      );
+
       const data = await resp.json();
-      if (resp.ok) {
+      if (resp.ok && isLogged) {
         localStorage.setItem('token', data.token);
+        console.log('JWT generado:', data.token);
         // Manejar la redirección o el éxito aquí
       } else {
         console.error(data.message || 'Error');
