@@ -55,3 +55,11 @@ h2 {
   margin: 10px 0;
   text-align: center; /* Centrado del mensaje de error */
 }
+
+.success {
+  color: rgb(0, 115, 255);
+  font-weight: bold;
+  text-align: center;
+  font-size: 1.3em;
+  font-style: italic;
+}
