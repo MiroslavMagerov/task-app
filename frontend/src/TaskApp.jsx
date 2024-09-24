@@ -1,9 +1,10 @@
-export const TaskApp = () => {
+import { Login } from './components/Login';
 
+export const TaskApp = () => {
   return (
-    <div id='root'>
-      <h1>TaskApp</h1>
-      <hr></hr>
+    <div className='root'>
+      <h1>Task App</h1>
+      <Login></Login>
     </div>
   );
 };

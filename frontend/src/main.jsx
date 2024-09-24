@@ -4,6 +4,6 @@ import { TaskApp } from './TaskApp';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <TaskApp></TaskApp>
+    <TaskApp />
   </StrictMode>
 );

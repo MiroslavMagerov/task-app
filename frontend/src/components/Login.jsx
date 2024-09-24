@@ -23,20 +23,23 @@ export const Login = () => {
 
   return (
     <div className='login-div'>
+      <h3>Login Form</h3>
       <form onSubmit={handleSubmitForm}>
-        <input
-          type='text'
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          placeholder='Username'
-        ></input>
-        <input
-          type='password'
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder='Password'
-        ></input>
-        <button type='submit'>Log in</button>
+        <fieldset>
+          <input
+            type='text'
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            placeholder='Username'
+          ></input>
+          <input
+            type='password'
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder='Password'
+          ></input>
+          <button type='submit'>Log in</button>
+        </fieldset>
       </form>
     </div>
   );
