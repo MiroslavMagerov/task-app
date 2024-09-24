@@ -4,11 +4,13 @@ export const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
+  const BACKEND_API = 'https://tasks-app-066e11260d66.herokuapp.com/users';
+
   const handleSubmitForm = async (e) => {
     e.preventDefault();
 
     try {
-      const resp = await fetch('', {
+      const resp = await fetch(`${BACKEND_API}/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password }),
@@ -23,7 +25,7 @@ export const Login = () => {
 
   return (
     <div className='login-div'>
-      <h3>Login Form</h3>
+      <h3>Register Form</h3>
       <form onSubmit={handleSubmitForm}>
         <fieldset>
           <input
@@ -38,7 +40,7 @@ export const Login = () => {
             onChange={(e) => setPassword(e.target.value)}
             placeholder='Password'
           ></input>
-          <button type='submit'>Log in</button>
+          <button type='submit'>Register</button>
         </fieldset>
       </form>
     </div>

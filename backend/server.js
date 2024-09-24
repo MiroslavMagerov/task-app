@@ -14,14 +14,28 @@ const __dirname = dirname(__filename);
 // Arreglar el path del .env al configurar el dotenv, hay que cargarlo manualmente sino da error y no lo encuentra
 dotenv.config({ path: join(__dirname, '.env') });
 
+const corsOptions = {
+  origin: 'http://localhost:5173',
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+};
+
 const app = express();
 app.use(express.json());
-app.use(cors());
+app.use(cors(corsOptions));
 
-const MONGO_URI = process.env.MONGO_URI;
 const PORT = process.env.PORT || 5000;
 
-mongoose.connect(MONGO_URI);
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then(() => {
+    console.log('Conectado a MongoDB');
+    app.listen(PORT, () => {
+      console.log(`Servidor corriendo en el puerto ${PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.error('Error de conexión a MongoDB:', err);
+  });
 
 mongoose.connection.on('connected', () => {
   console.log('Conexión a MongoDB Atlas establecida con éxito');
@@ -37,7 +51,3 @@ mongoose.connection.on('disconnected', () => {
 
 app.use('/tasks', taskRoutes);
 app.use('/users', userRoutes);
-
-app.listen(PORT, () => {
-  console.log(`Servidor corriendo en el puerto ${PORT}`);
-});
