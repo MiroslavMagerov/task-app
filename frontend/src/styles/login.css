@@ -26,20 +26,20 @@ input[type='password'] {
 }
 
 button {
-  background-color: #5cb85c;
+  background-color: #00a900;
   color: white;
   padding: 10px 15px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   font-size: 16px;
-  width: 100%;
+  width: 165px;
   min-width: fit-content;
   transition: transform 0.25s ease, background-color 0.4s ease;
 }
 
 button:hover {
-  background-color: #419a41;
+  background-color: #186218;
   transform: scale(1.035);
 }
 
@@ -51,9 +51,10 @@ h2 {
 }
 
 .error {
-  color: red;
+  color: rgb(155, 0, 0);
   margin: 10px 0;
-  text-align: center; /* Centrado del mensaje de error */
+  text-align: center;
+  font-weight: bolder;
 }
 
 .success {
@@ -62,4 +63,8 @@ h2 {
   text-align: center;
   font-size: 1.3em;
   font-style: italic;
+}
+
+.color-white {
+  color: white;
 }
