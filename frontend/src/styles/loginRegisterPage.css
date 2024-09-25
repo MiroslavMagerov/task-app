@@ -1,8 +1,8 @@
-form {
-  background: #d2d2d2;
+.login-form {
+  background: #e3e3e3;
   padding: 20px;
   border-radius: 5px;
-  box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.25);
+  box-shadow: 2px 2px 2px rgba(255, 255, 255, 0.441);
   margin-bottom: 20px;
   display: flex;
   flex-direction: column;
@@ -15,8 +15,8 @@ form {
   margin-top: 15px;
 }
 
-input[type='text'],
-input[type='password'] {
+.login-form input[type='text'],
+.login-form input[type='password'] {
   width: 100%;
   padding: 10px 5px;
   border: 1px solid #ccc;
@@ -25,7 +25,7 @@ input[type='password'] {
   background-color: #ffffff;
 }
 
-button {
+.login-form button {
   background-color: #00a900;
   color: white;
   padding: 10px 15px;
@@ -38,14 +38,13 @@ button {
   transition: transform 0.25s ease, background-color 0.4s ease;
 }
 
-button:hover {
+.login-form button:hover {
   background-color: #186218;
   transform: scale(1.035);
 }
 
-h2 {
+.login-form h2 {
   margin: 0;
-  padding: 5px;
   color: black;
   font-weight: bold;
 }
@@ -58,7 +57,7 @@ h2 {
 }
 
 .success {
-  color: rgb(0, 115, 255);
+  color: rgb(0, 153, 255);
   font-weight: bold;
   text-align: center;
   font-size: 1.3em;

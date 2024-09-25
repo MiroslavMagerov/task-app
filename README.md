@@ -24,3 +24,7 @@ Esta es una aplicación **fullstack** para la gestión de tareas, que utiliza **
 - CRUD (Crear, Leer, Actualizar, Eliminar) para la gestión de tareas.
 - Almacenamiento seguro en **MongoDB Atlas**.
 - Separación clara entre frontend y backend para facilitar el desarrollo y despliegue.
+
+## Licencia
+
+Este proyecto está licenciado bajo los términos de la [MIT License](LICENSE).

@@ -1,22 +1,16 @@
-import { useState, useEffect } from 'react';
-import '../styles/login.css';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import '../styles/loginRegisterPage.css';
 
-export const Login = () => {
+export const LoginRegisterForm = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loginOrRegister, setLoginOrRegister] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
+  const navigate = useNavigate();
 
   const BACKEND_API = 'https://task-app-3ois.onrender.com/users';
-
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      setIsAuthenticated(true);
-    }
-  }, []);
 
   const handleSubmitForm = async (e) => {
     e.preventDefault();
@@ -24,7 +18,9 @@ export const Login = () => {
     setSuccessMessage('');
 
     if (username.length < 5 || password.length < 5) {
-      setError('Username y Password deben tener al menos 5 carácteres');
+      setError(
+        'El nombre de usuario y contraseña deben tener al menos 5 carácteres'
+      );
       return;
     }
 
@@ -66,28 +62,18 @@ export const Login = () => {
       localStorage.setItem('token', data.token);
       console.log('JWT generado:', data.token);
       setSuccessMessage('Login exitoso');
-      setIsAuthenticated(true);
+      navigate('/tasks');
     } catch (error) {
       setError('Error de conexión. Inténtalo más tarde.');
       console.error(error);
     }
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    setIsAuthenticated(false);
-  };
-
   return (
     <main>
-      {isAuthenticated ? (
-        <>
-          <h2 className='color-white'>You are logged in</h2>
-          <button onClick={handleLogout}>Log out</button>
-        </>
-      ) : (
-        <form onSubmit={handleSubmitForm}>
-          <h2>{loginOrRegister ? 'Login form' : 'Register form'}</h2>
+      <div>
+        <form className='login-form' onSubmit={handleSubmitForm}>
+          <h1>{loginOrRegister ? 'Login form' : 'Register form'}</h1>
           <input
             type='text'
             value={username}
@@ -112,7 +98,7 @@ export const Login = () => {
             {loginOrRegister ? 'Switch to register' : 'Switch to login'}
           </button>
         </form>
-      )}
+      </div>
     </main>
   );
 };
