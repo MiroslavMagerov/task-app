@@ -5,39 +5,61 @@ export const LandingPage = () => {
     <div className='landing-div'>
       <h1>
         <span className='white'>Welcome to</span>{' '}
-        <span className='highlight'>Taskly!</span>
+        <span className='highlight'>Taskly!</span>🌟
       </h1>
       <p>
-        Please, log in or create an account to be able to create and see others
-        tasks!
+        Taskly is your go-to{' '}
+        <span className='highlight black-text'>productivity partner!</span> Log
+        in or create an account to embark on your journey to manage tasks
+        effectively and achieve your goals. 🔑
       </p>
       <div className='app-description'>
-        <h2>About Taskly</h2>
+        <h2>About Taskly 📋</h2>
         <p>
-          Taskly is an intuitive and easy-to-use application designed to help
-          you organize and manage your daily tasks efficiently. With a focus on
-          simplicity and functionality, you can:
+          Taskly is designed to help you{' '}
+          <span className='highlight black-text'>
+            organize and manage your daily tasks with ease.
+          </span>{' '}
+          In today’s fast-paced world, it can be overwhelming to keep track of
+          everything you need to do, but Taskly simplifies this process. With
+          our user-friendly interface, you’ll find that staying organized has
+          never been easier! 🌍
         </p>
+        <h2>Key Features</h2>
         <ul>
           <li>
-            <strong>Manage your tasks:</strong> Add, edit, and delete tasks with
-            ease.
+            <strong>Manage your tasks:</strong> Effortlessly add, edit, and
+            delete tasks. Whether it&apos;s personal errands, work projects, or
+            collaborative efforts, Taskly helps you stay on top of it all. ✏️
           </li>
           <li>
-            <strong>Secure access:</strong> Log in securely to keep your
-            information private and access your tasks from anywhere.
+            <strong>Secure access:</strong>{' '}
+            <span className='highlight black-text'>Log in safely</span> to
+            protect your personal information while accessing your tasks from
+            any device. We prioritize your data security and privacy. 🔒
           </li>
           <li>
-            <strong>Intuitive navigation:</strong> Enjoy a user-friendly
-            interface that makes it easy to navigate between your tasks, app
-            information, and log out option.
+            <strong>Intuitive navigation:</strong> Enjoy a smooth user
+            experience that allows you to quickly find what you need, from your
+            task list to app settings. 🧭
           </li>
         </ul>
         <p>
-          Optimize your productivity and stay on top of what you need to do with
-          Taskly. Start managing your tasks today!
+          At Taskly,{' '}
+          <span className='highlight black-text'>
+            we believe that staying organized leads to increased productivity
+            and less stress.
+          </span>{' '}
+          Our application is designed to fit seamlessly into your busy
+          lifestyle, making task management simple and effective. 📅
+        </p>
+        <p>
+          Start managing your tasks today with Taskly and take the first step
+          toward a more organized, productive, and fulfilling life! 🚀
         </p>
       </div>
     </div>
   );
 };
+
+export default LandingPage;

@@ -3,19 +3,21 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 20px;
-  max-width: 700px;
+  padding: 20px 35px;
+  max-width: 935px;
   margin: 0 auto;
-  margin-top: 20px;
-  background-color: rgba(255, 255, 255, 0.08);
+  background-color: #1a1a1a;
   border-radius: 10px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
   color: #ffffff;
+  text-align: justify;
+  line-height: 1.5;
 }
 
 .landing-div h1 {
-  color: #00a900;
-  margin-bottom: 15px;
+  color: #00ac00;
+  padding: 0;
+  margin: 0;
 }
 
 .landing-div p {
@@ -24,9 +26,7 @@
 }
 
 .app-description {
-  margin-top: 20px;
-  padding: 15px;
-  background-color: rgba(255, 255, 255, 0.1);
+  padding: 10px;
   border-radius: 8px;
   color: #ffffff;
 }
@@ -44,13 +44,4 @@
 
 .app-description li {
   margin-bottom: 8px;
-}
-
-.highlight {
-  font-weight: bold;
-  font-style: italic;
-}
-
-.white {
-  color: white;
 }

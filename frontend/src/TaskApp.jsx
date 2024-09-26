@@ -5,20 +5,30 @@ import { LoginRegisterForm } from './components/LoginRegisterForm';
 import { TaskPage } from './components/TaskPage';
 import { About } from './components/About';
 import { ProtectedRoute } from './components/ProtectedRoute';
+import { Footer } from './components/Footer';
 
 export const TaskApp = () => {
   return (
     <Router>
       <Navbar />
-      <Routes>
-        <Route path='/' element={<LandingPage />} />
-        <Route path='/login' element={<LoginRegisterForm />} />
-        <Route
-          path='/tasks'
-          element={<ProtectedRoute component={TaskPage} />}
-        />
-        <Route path='/about' element={<About />} />
-      </Routes>
+      <div className='content'>
+        <Routes>
+          <Route path='/' element={<LandingPage />} />
+          <Route path='/login' element={<LoginRegisterForm />} />
+          <Route
+            path='/tasks'
+            element={
+              <ProtectedRoute>
+                <TaskPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route path='/about' element={<About />} />
+        </Routes>
+      </div>
+      <Footer />
     </Router>
   );
 };
+
+export default TaskApp;

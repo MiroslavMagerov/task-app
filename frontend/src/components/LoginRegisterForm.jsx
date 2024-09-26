@@ -1,14 +1,14 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import '../styles/loginRegisterPage.css';
 
 export const LoginRegisterForm = () => {
   const [username, setUsername] = useState('');
+  const [usernameError, setUsernameError] = useState(false);
   const [password, setPassword] = useState('');
+  const [passwordError, setPasswordError] = useState(false);
   const [loginOrRegister, setLoginOrRegister] = useState(false);
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
-  const navigate = useNavigate();
 
   const BACKEND_API = 'https://task-app-3ois.onrender.com/users';
 
@@ -18,9 +18,7 @@ export const LoginRegisterForm = () => {
     setSuccessMessage('');
 
     if (username.length < 5 || password.length < 5) {
-      setError(
-        'El nombre de usuario y contraseña deben tener al menos 5 carácteres'
-      );
+      setError('Username and password must be at least 5 characters long.');
       return;
     }
 
@@ -55,49 +53,90 @@ export const LoginRegisterForm = () => {
       }
 
       if (!loginOrRegister) {
-        setSuccessMessage('Registro exitoso. Ahora puedes iniciar sesión.');
+        setSuccessMessage('Successfully signed in. Now you can log in!');
         return;
       }
 
       localStorage.setItem('token', data.token);
       console.log('JWT generado:', data.token);
-      setSuccessMessage('Login exitoso');
-      navigate('/tasks');
+      setSuccessMessage('Successfully logged in.');
     } catch (error) {
-      setError('Error de conexión. Inténtalo más tarde.');
+      setError('Connection error. Try again later.');
       console.error(error);
+    }
+  };
+
+  const handleBlur = (field) => {
+    if (field === 'username' && username.trim() === '') {
+      setUsernameError(true);
+      return;
+    }
+
+    if (field === 'password' && password.trim() === '') {
+      setPasswordError(true);
+      return;
+    }
+
+    if (field === 'username') setUsernameError(false);
+    if (field === 'password') setPasswordError(false);
+  };
+
+  const handleFocus = (field) => {
+    if (field === 'username' && username.length <= 0) {
+      setUsernameError(false);
+      return;
+    }
+
+    if (field === 'password' && password.length > 0) {
+      setUsernameError(false);
+      return;
     }
   };
 
   return (
     <main>
-      <div>
-        <form className='login-form' onSubmit={handleSubmitForm}>
-          <h1>{loginOrRegister ? 'Login form' : 'Register form'}</h1>
-          <input
-            type='text'
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            placeholder='Username'
-          />
-          <input
-            type='password'
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder='Password'
-          />
-          {successMessage && <p className='success'>{successMessage}</p>}
-          {error && <p className='error'>{error}</p>}
-          <button type='submit'>
-            {loginOrRegister ? 'Login' : 'Register'}
-          </button>
-          <button
-            type='button'
-            onClick={() => setLoginOrRegister(!loginOrRegister)}
-          >
-            {loginOrRegister ? 'Switch to register' : 'Switch to login'}
-          </button>
-        </form>
+      <form className='login-form' onSubmit={handleSubmitForm}>
+        <h1>{loginOrRegister ? 'Log in' : 'Sign up'}</h1>
+        <input
+          type='text'
+          value={username}
+          onChange={(e) => {
+            setUsername(e.target.value), handleFocus('username');
+          }}
+          required
+          placeholder='Username'
+          onBlur={() => handleBlur('username')}
+          className={`${usernameError ? 'error' : ''}`}
+        />
+        <p className={`error-message ${usernameError ? 'visible' : ''}`}>
+          Required
+        </p>
+
+        <input
+          type='password'
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+          placeholder='Password'
+          onFocus={() => handleFocus('password')}
+          onBlur={() => handleBlur('password')}
+          className={`${passwordError ? 'error' : ''}`}
+        />
+        <p className={`error-message ${passwordError ? 'visible' : ''}`}>
+          Required
+        </p>
+
+        <button type='submit'>{loginOrRegister ? 'LOG IN' : 'SIGN UP'}</button>
+        <button
+          type='button'
+          onClick={() => setLoginOrRegister(!loginOrRegister)}
+        >
+          {loginOrRegister ? 'SWITCH TO SIGN UP' : 'SWITCH TO LOG IN'}
+        </button>
+      </form>
+      <div className='info-div'>
+        {successMessage && <p className='success'>{successMessage}</p>}
+        {error && <p className='error'>{error}</p>}
       </div>
     </main>
   );
