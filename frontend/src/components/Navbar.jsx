@@ -1,20 +1,17 @@
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import '../styles/navbar.css';
+import { useContext } from 'react';
+import { AuthContext } from './AuthProvider';
+import useAlert from '../hooks/useAlert';
 
 export const Navbar = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
+  const { isAuthenticated, logout } = useContext(AuthContext);
+  const { notLoggedInTaskPage } = useAlert();
 
   const handleTasksClick = (e) => {
     if (!localStorage.getItem('token')) {
-      alert('You need to be logged in to be able to see the tasks page.');
+      notLoggedInTaskPage();
       e.preventDefault();
-    }
-  };
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    if (location.pathname === '/tasks') {
-      navigate.redirect('/');
     }
   };
 
@@ -27,8 +24,11 @@ export const Navbar = () => {
           Tasks
         </Link>
         <Link to='/about'>About</Link>
-        <Link to='/login'>Login</Link>
-        <button onClick={handleLogout}>Logout</button>
+        {isAuthenticated ? (
+          <button onClick={logout}>Logout</button>
+        ) : (
+          <Link to='/login'>Login</Link>
+        )}
       </div>
     </nav>
   );

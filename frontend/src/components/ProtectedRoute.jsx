@@ -1,9 +1,16 @@
+import { useContext } from 'react';
+import { AuthContext } from './AuthProvider';
+import { Navigate } from 'react-router-dom';
+
 export const ProtectedRoute = ({ children }) => {
-  const isAuthenticated = !!localStorage.getItem('token');
+  const { isAuthenticated, isLoading } = useContext(AuthContext);
+
+  if (isLoading) {
+    return <h2>Loading...</h2>;
+  }
 
   if (!isAuthenticated) {
-    alert('Por favor, inicia sesión para acceder a esta página.');
-    return null;
+    return <Navigate to='/' />;
   }
 
   return children;

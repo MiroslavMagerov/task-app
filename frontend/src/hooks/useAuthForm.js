@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { AuthContext } from '../components/AuthProvider';
 
 export const useAuthForm = () => {
   const MIN_USERNAME_PASSWORD_LENGTH = 5;
@@ -11,8 +12,9 @@ export const useAuthForm = () => {
   const [loginOrRegister, setLoginOrRegister] = useState(false);
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
+  const { login } = useContext(AuthContext);
 
-  const BACKEND_API = 'https://task-app-3ois.onrender.com/users';
+  const BACKEND_API = import.meta.env.VITE_BACKEND_API_URL;
 
   const handleSubmitForm = async (e) => {
     e.preventDefault();
@@ -67,6 +69,7 @@ export const useAuthForm = () => {
       localStorage.setItem('token', data.token);
       console.log('JWT generado:', data.token);
       setSuccessMessage('Successfully logged in.');
+      login();
     } catch (error) {
       setError('Connection error. Try again later.');
       console.error(error);
