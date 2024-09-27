@@ -1,7 +1,10 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import '../styles/navbar.css';
 
 export const Navbar = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const handleTasksClick = (e) => {
     if (!localStorage.getItem('token')) {
       alert('You need to be logged in to be able to see the tasks page.');
@@ -10,6 +13,9 @@ export const Navbar = () => {
   };
   const handleLogout = () => {
     localStorage.removeItem('token');
+    if (location.pathname === '/tasks') {
+      navigate.redirect('/');
+    }
   };
 
   return (
