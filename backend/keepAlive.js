@@ -21,4 +21,4 @@ const keepAlive = async () => {
 
 setInterval(keepAlive, INTERVAL);
 
-keepAlive();
+export default keepAlive;

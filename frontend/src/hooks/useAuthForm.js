@@ -20,11 +20,7 @@ export const useAuthForm = () => {
 
   const BACKEND_API = import.meta.env.VITE_BACKEND_API_URL;
 
-  const handleSubmitForm = async (e) => {
-    e.preventDefault();
-    setError('');
-    setSuccessMessage('');
-
+  const validateCredentailsLength = () => {
     if (
       username.length < MIN_USERNAME_PASSWORD_LENGTH ||
       password.length < MIN_USERNAME_PASSWORD_LENGTH
@@ -34,6 +30,21 @@ export const useAuthForm = () => {
       );
       return;
     }
+  };
+
+  const successfullLogin = (data) => {
+    localStorage.setItem('token', data.token);
+    console.log('JWT generado:', data.token);
+    setSuccessMessage('Successfully logged in.');
+    login();
+  };
+
+  const handleSubmitForm = async (e) => {
+    e.preventDefault();
+    setError('');
+    setSuccessMessage('');
+
+    validateCredentailsLength();
 
     const endpoint = loginOrRegister ? 'login' : 'register';
 
@@ -61,7 +72,7 @@ export const useAuthForm = () => {
       const data = await resp.json();
 
       if (!resp.ok) {
-        console.error(data.message || 'Error en el servidor');
+        console.error(data.message || 'Server error');
         setError(data.message);
         return;
       }
@@ -71,10 +82,7 @@ export const useAuthForm = () => {
         return;
       }
 
-      localStorage.setItem('token', data.token);
-      console.log('JWT generado:', data.token);
-      setSuccessMessage('Successfully logged in.');
-      login();
+      successfullLogin(data);
     } catch (error) {
       setError('Connection error. Try again later.');
       console.error(error);
@@ -106,15 +114,9 @@ export const useAuthForm = () => {
   };
 
   const handleFocus = (field) => {
-    if (field === 'username' && username.length <= 0) {
+    if (field === 'username' && username.length <= 0) setUsernameError(false);
+    else if (field === 'password' && password.length > 0)
       setUsernameError(false);
-      return;
-    }
-
-    if (field === 'password' && password.length > 0) {
-      setUsernameError(false);
-      return;
-    }
   };
 
   return {
