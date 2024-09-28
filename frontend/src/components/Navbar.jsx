@@ -8,20 +8,12 @@ export const Navbar = () => {
   const { isAuthenticated, logout } = useContext(AuthContext);
   const { notLoggedInTaskPageAlert } = useAlert();
 
-  const handleTasksPageClick = async (e) => {
-    try {
-      const response = await fetch(
-        `${import.meta.env.VITE_BACKEND_API_URL}/verify`
-      );
-
-      if (!response.ok) {
-        console.error('User not logged in', response.statusText);
-        notLoggedInTaskPageAlert();
-        return;
-      }
+  const handleTasksPageClick = (e) => {
+    if (!isAuthenticated) {
+      console.log(isAuthenticated);
+      notLoggedInTaskPageAlert();
       e.preventDefault();
-    } catch (error) {
-      console.error(error);
+      return;
     }
   };
 

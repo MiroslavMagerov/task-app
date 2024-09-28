@@ -20,10 +20,14 @@ export const LoginRegisterForm = () => {
           required
           placeholder='Username'
           onBlur={() => authForm.handleBlur('username')}
-          className={`input-username ${authForm.usernameError ? 'error' : ''}`}
+          className={`input-username ${
+            authForm.usernameError ? 'input-error' : ''
+          }`}
         />
         <p
-          className={`error-message ${authForm.usernameError ? 'visible' : ''}`}
+          className={`required-message ${
+            authForm.usernameError ? 'visible' : ''
+          }`}
         >
           Required
         </p>
@@ -37,7 +41,7 @@ export const LoginRegisterForm = () => {
             onFocus={() => authForm.handleFocus('password')}
             onBlur={() => authForm.handleBlur('password')}
             className={`input-password ${
-              authForm.passwordError ? 'error' : ''
+              authForm.passwordError ? 'input-error' : ''
             }`}
           />
           <img
@@ -47,7 +51,9 @@ export const LoginRegisterForm = () => {
           />
         </div>
         <p
-          className={`error-message ${authForm.passwordError ? 'visible' : ''}`}
+          className={`required-message ${
+            authForm.passwordError ? 'visible' : ''
+          }`}
         >
           Required
         </p>
