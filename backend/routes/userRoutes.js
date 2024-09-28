@@ -59,6 +59,8 @@ router.post('/login', async (req, res) => {
       maxAge: 60 * 60 * 1000,
     });
 
+    console.log(cookie);
+
     res.status(200).json({ message: 'Logged in successfully' });
   } catch (error) {
     console.error(error);
@@ -74,7 +76,15 @@ router.post('/register', async (req, res) => {
     res.status(201).json(user);
   } catch (error) {
     console.error(error);
-    res.status(400).json({ message: error.message });
+    if (error.code === 11000) {
+      return res.status(400).json({
+        message: 'Username already exists. Please choose another one.',
+      });
+    }
+
+    res
+      .status(500)
+      .json({ message: 'Error when trying to sign up this user.' });
   }
 });
 
@@ -95,12 +105,12 @@ router.delete('/:id', async (req, res) => {
   try {
     const deletedUser = await User.findByIdAndDelete(id);
     if (!deletedUser) {
-      return res.status(404).json({ message: 'Usuario no encontrado' });
+      return res.status(404).json({ message: 'User not found' });
     }
     res.status(204).send();
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Error al borrar el usuario' });
+    res.status(500).json({ message: 'Error when searching for this user' });
   }
 });
 
@@ -113,9 +123,9 @@ router.delete('/', async (_, res) => {
       return res.status(204).send();
     }
 
-    res.status(200).json({ message: 'Se han borrado todos los usuarios' });
+    res.status(200).json({ message: 'All users deleted' });
   } catch (error) {
-    res.status(500).json({ message: 'Error al borrar todos los usuarios' });
+    res.status(500).json({ message: 'Error when trying to delete all users' });
   }
 });
 
