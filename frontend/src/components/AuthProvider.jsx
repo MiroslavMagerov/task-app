@@ -15,16 +15,22 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const verifyCookieExistance = async () => {
       try {
-        const response = await fetch(`${BACKEND_API}/verify`);
+        const response = await fetch(`${BACKEND_API}/verify`, {
+          method: 'GET',
+          credentials: 'include',
+        });
 
         if (!response.ok) {
           console.error('User not logged in', response.statusText);
           setIsAuthenticated(false);
+        } else {
+          setIsAuthenticated(true);
         }
-        setIsLoading(false);
-        setIsAuthenticated(true);
       } catch (error) {
+        setIsAuthenticated(false);
         console.error(error);
+      } finally {
+        setIsLoading(false);
       }
     };
 

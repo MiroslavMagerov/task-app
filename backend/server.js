@@ -7,6 +7,7 @@ import userRoutes from './routes/userRoutes.js';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import keepAlive from './keepAlive.js';
+import cookieParser from 'cookie-parser';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -35,6 +36,7 @@ const corsOptions = {
 const app = express();
 app.use(express.json());
 app.use(cors(corsOptions));
+app.use(cookieParser());
 
 const PORT = process.env.PORT || 5000;
 
