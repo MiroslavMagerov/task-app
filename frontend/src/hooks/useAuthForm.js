@@ -4,15 +4,19 @@ import { AuthContext } from '../components/AuthProvider';
 export const useAuthForm = () => {
   const MIN_USERNAME_PASSWORD_LENGTH = 5;
 
+  const { login } = useContext(AuthContext);
+
   const [username, setUsername] = useState('');
   const [usernameError, setUsernameError] = useState(false);
+
   const [password, setPassword] = useState('');
   const [passwordError, setPasswordError] = useState(false);
+
   const [showPassword, setShowPassword] = useState(false);
   const [loginOrRegister, setLoginOrRegister] = useState(false);
+
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
-  const { login } = useContext(AuthContext);
 
   const BACKEND_API = import.meta.env.VITE_BACKEND_API_URL;
 
@@ -42,6 +46,7 @@ export const useAuthForm = () => {
     try {
       const resp = await fetch(`${BACKEND_API}/${endpoint}`, {
         method: 'POST',
+        credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password }),
       });

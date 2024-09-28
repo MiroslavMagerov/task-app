@@ -37,8 +37,7 @@ router.post('/login', async (req, res) => {
         .json({ message: `No account with the username ${username} found.` });
     }
 
-    // Verifica si la contraseña ingresada es correcta
-    const isPasswordValid = await user.comparePassword(password);
+    const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
       return res.status(400).json({ message: 'The password is incorrect.' });
     }
@@ -52,10 +51,18 @@ router.post('/login', async (req, res) => {
       }
     );
 
-    res.status(200).json({ token });
+    // Envia la cookie al cliente
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: 60 * 60 * 1000,
+    });
+
+    res.status(200).json({ message: 'Logged in successfully' });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Error en el servidor' });
+    res.status(500).json({ message: 'Server error' });
   }
 });
 
@@ -68,6 +75,16 @@ router.post('/register', async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(400).json({ message: error.message });
+  }
+});
+
+router.post('/logout', (_, res) => {
+  try {
+    res.clearCookie('token');
+    res.status(200).json({ message: 'Successfull logout' });
+  } catch (error) {
+    console.error(error.message);
+    res.status(400).json({ message: `Error: ${error.message}` });
   }
 });
 
