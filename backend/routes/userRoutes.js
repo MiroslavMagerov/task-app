@@ -20,7 +20,7 @@ router.get('/', async (_, res) => {
     res.json(users);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Error al obtener los usuarios' });
+    res.status(500).json({ message: error.message });
   }
 });
 
@@ -59,12 +59,12 @@ router.post('/login', async (req, res) => {
       maxAge: 60 * 60 * 1000,
     });
 
-    console.log(cookie);
+    console.log('Cookie set successfully');
 
     res.status(200).json({ message: 'Logged in successfully' });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: error.message });
   }
 });
 
@@ -82,9 +82,7 @@ router.post('/register', async (req, res) => {
       });
     }
 
-    res
-      .status(500)
-      .json({ message: 'Error when trying to sign up this user.' });
+    res.status(500).json({ message: error.message });
   }
 });
 
@@ -94,7 +92,7 @@ router.post('/logout', (_, res) => {
     res.status(200).json({ message: 'Successfull logout' });
   } catch (error) {
     console.error(error.message);
-    res.status(400).json({ message: `Error: ${error.message}` });
+    res.status(400).json({ message: error.message });
   }
 });
 
@@ -110,7 +108,7 @@ router.delete('/:id', async (req, res) => {
     res.status(204).send();
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Error when searching for this user' });
+    res.status(500).json({ message: error.message });
   }
 });
 
@@ -125,7 +123,7 @@ router.delete('/', async (_, res) => {
 
     res.status(200).json({ message: 'All users deleted' });
   } catch (error) {
-    res.status(500).json({ message: 'Error when trying to delete all users' });
+    res.status(500).json({ message: error.message });
   }
 });
 

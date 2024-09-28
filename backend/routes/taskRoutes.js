@@ -9,7 +9,7 @@ router.get('/', async (_, res) => {
     const tasks = await Task.find();
     res.json(tasks);
   } catch (error) {
-    res.status(500).json({ message: 'Error when trying to get all the tasks' });
+    res.status(500).json({ message: error.message });
   }
 });
 
@@ -27,7 +27,7 @@ router.post('/', async (req, res) => {
     const savedTask = await task.save();
     res.status(201).json(savedTask);
   } catch (error) {
-    res.status(500).json({ message: 'Error when trying to create the task' });
+    res.status(500).json({ message: error.message });
   }
 });
 
@@ -47,7 +47,7 @@ router.put('/:id', async (req, res) => {
     }
     res.json(updatedTask);
   } catch (error) {
-    res.status(500).json({ message: 'Error when trying to update the task' });
+    res.status(500).json({ message: error.message });
   }
 });
 
@@ -62,7 +62,7 @@ router.delete('/:id', async (req, res) => {
     }
     res.status(204).send();
   } catch (error) {
-    res.status(500).json({ message: 'Error when trying to delete the task' });
+    res.status(500).json({ message: error.message });
   }
 });
 
@@ -77,7 +77,7 @@ router.delete('/', async (_, res) => {
 
     res.status(200).json({ message: 'All tasks deleted successfully' });
   } catch (error) {
-    res.status(500).json({ message: 'Error when trying to delete all tasks' });
+    res.status(500).json({ message: error.message });
   }
 });
 
