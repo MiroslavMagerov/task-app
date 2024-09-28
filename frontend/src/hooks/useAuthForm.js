@@ -13,28 +13,26 @@ export const useAuthForm = () => {
   const [passwordError, setPasswordError] = useState(false);
 
   const [showPassword, setShowPassword] = useState(false);
-  const [loginOrRegister, setLoginOrRegister] = useState(false);
+  const [loginOrRegister, setLoginOrRegister] = useState('login');
 
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
 
   const BACKEND_API = import.meta.env.VITE_BACKEND_API_URL;
 
-  const validateCredentailsLength = () => {
+  const areCredentialsValid = () => {
     if (
       username.length < MIN_USERNAME_PASSWORD_LENGTH ||
       password.length < MIN_USERNAME_PASSWORD_LENGTH
     ) {
-      setError(
-        `Username and password must be at least ${MIN_USERNAME_PASSWORD_LENGTH} characters long.`
-      );
-      return;
+      return false;
     }
+
+    return true;
   };
 
-  const successfullLogin = (data) => {
-    localStorage.setItem('token', data.token);
-    console.log('JWT generado:', data.token);
+  const successfullLogin = () => {
+    console.log('Successfully logged in.');
     setSuccessMessage('Successfully logged in.');
     login();
   };
@@ -44,30 +42,28 @@ export const useAuthForm = () => {
     setError('');
     setSuccessMessage('');
 
-    validateCredentailsLength();
-
-    const endpoint = loginOrRegister ? 'login' : 'register';
+    if (!areCredentialsValid()) {
+      setError(
+        `Username and password must be at least ${MIN_USERNAME_PASSWORD_LENGTH} characters long.`
+      );
+      return;
+    }
 
     console.log(
       `Intentando ${
-        loginOrRegister ? 'iniciar sesión' : 'registrar'
+        loginOrRegister === 'login' ? 'iniciar sesión' : 'registrar'
       } con el usuario: ${username}`
     );
 
     try {
-      const resp = await fetch(`${BACKEND_API}/${endpoint}`, {
+      const resp = await fetch(`${BACKEND_API}/${loginOrRegister}`, {
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password }),
       });
 
-      console.log(
-        `Respuesta del servidor para ${
-          loginOrRegister ? 'login' : 'register'
-        }:`,
-        resp
-      );
+      console.log(resp);
 
       const data = await resp.json();
 
@@ -77,12 +73,12 @@ export const useAuthForm = () => {
         return;
       }
 
-      if (!loginOrRegister) {
+      if (loginOrRegister === 'register') {
         setSuccessMessage('Successfully signed in. Now you can log in!');
         return;
       }
 
-      successfullLogin(data);
+      successfullLogin();
     } catch (error) {
       setError('Connection error. Try again later.');
       console.error(error);

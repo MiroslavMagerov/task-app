@@ -9,7 +9,7 @@ export const LoginRegisterForm = () => {
   return (
     <main>
       <form className='login-form' onSubmit={authForm.handleSubmitForm}>
-        <h1>{authForm.loginOrRegister ? 'Log in' : 'Sign up'}</h1>
+        <h1>{authForm.loginOrRegister === 'login' ? 'Log in' : 'Sign up'}</h1>
         <input
           type='text'
           value={authForm.username}
@@ -53,13 +53,19 @@ export const LoginRegisterForm = () => {
         </p>
 
         <button type='submit'>
-          {authForm.loginOrRegister ? 'LOG IN' : 'SIGN UP'}
+          {authForm.loginOrRegister === 'login' ? 'LOG IN' : 'SIGN UP'}
         </button>
         <button
           type='button'
-          onClick={() => authForm.setLoginOrRegister(!authForm.loginOrRegister)}
+          onClick={() =>
+            authForm.setLoginOrRegister(
+              authForm.loginOrRegister === 'login' ? 'register' : 'login'
+            )
+          }
         >
-          {authForm.loginOrRegister ? 'SWITCH TO SIGN UP' : 'SWITCH TO LOG IN'}
+          {authForm.loginOrRegister === 'login'
+            ? 'SWITCH TO SIGN UP'
+            : 'SWITCH TO LOG IN'}
         </button>
       </form>
       <div className='info-div'>

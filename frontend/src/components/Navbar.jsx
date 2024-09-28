@@ -6,12 +6,22 @@ import useAlert from '../hooks/useAlert';
 
 export const Navbar = () => {
   const { isAuthenticated, logout } = useContext(AuthContext);
-  const { notLoggedInTaskPage } = useAlert();
+  const { notLoggedInTaskPageAlert } = useAlert();
 
-  const handleTasksClick = (e) => {
-    if (!localStorage.getItem('token')) {
-      notLoggedInTaskPage();
+  const handleTasksPageClick = async (e) => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_BACKEND_API_URL}/verify`
+      );
+
+      if (!response.ok) {
+        console.error('User not logged in', response.statusText);
+        notLoggedInTaskPageAlert();
+        return;
+      }
       e.preventDefault();
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -20,7 +30,7 @@ export const Navbar = () => {
       <h1>TASKLY</h1>
       <div className='links-div'>
         <Link to='/'>Home</Link>
-        <Link to='/tasks' onClick={handleTasksClick}>
+        <Link to='/tasks' onClick={handleTasksPageClick}>
           Tasks
         </Link>
         <Link to='/about'>About</Link>

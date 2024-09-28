@@ -96,6 +96,14 @@ router.post('/logout', (_, res) => {
   }
 });
 
+router.get('/verify', (req, res) => {
+  if (req.cookies.token) {
+    return res.status(200).json({ message: 'User is authenticated' });
+  } else {
+    return res.status(401).json({ message: 'Not authenticated' });
+  }
+});
+
 // Eliminar un usuario por su ID
 router.delete('/:id', async (req, res) => {
   const { id } = req.params;

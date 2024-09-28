@@ -119,6 +119,10 @@ main {
 
 .error {
   color: rgb(186, 0, 0);
+  font-weight: bold;
+  text-align: center;
+  font-size: 1.3em;
+  font-style: italic;
 }
 
 .color-white {

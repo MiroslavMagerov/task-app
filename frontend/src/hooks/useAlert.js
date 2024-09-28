@@ -1,9 +1,9 @@
 import Swal from 'sweetalert2';
 
 export const useAlert = () => {
-  const notLoggedInTaskPage = () => {
+  const notLoggedInTaskPageAlert = () => {
     Swal.fire({
-      titleText: 'WARNING',
+      titleText: 'NOT LOGGED IN',
       text: 'Please, log in to be able to see the Tasks page.',
       icon: 'warning',
       confirmButtonText: 'Ok',
@@ -11,8 +11,19 @@ export const useAlert = () => {
     });
   };
 
+  const logoutAlert = () => {
+    Swal.fire({
+      titleText: 'LOGGED OUT',
+      text: 'Successfully logged out from your acount.',
+      icon: 'success',
+      confirmButtonText: 'Ok',
+      confirmButtonColor: '#00c90a',
+    });
+  };
+
   return {
-    notLoggedInTaskPage,
+    notLoggedInTaskPageAlert,
+    logoutAlert,
   };
 };
 
