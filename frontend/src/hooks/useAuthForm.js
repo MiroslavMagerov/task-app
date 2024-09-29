@@ -31,9 +31,12 @@ export const useAuthForm = () => {
     return true;
   };
 
-  const successfullLogin = () => {
+  const successfullLogin = (token) => {
     console.log('Successfully logged in.');
     setSuccessMessage('Successfully logged in.');
+
+    localStorage.setItem('AuthenticationToken', token);
+
     login();
   };
 
@@ -78,7 +81,7 @@ export const useAuthForm = () => {
         return;
       }
 
-      successfullLogin();
+      successfullLogin(data.token);
     } catch (error) {
       setError('Connection error. Try again later.');
       console.error(error);

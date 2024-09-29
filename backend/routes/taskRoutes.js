@@ -1,6 +1,6 @@
 import express from 'express';
 import Task from '../models/Task.js';
-import verifyToken from '../middleware/verifyToken.js';
+import { authenticateToken } from '../middleware/authenticateToken.js';
 
 const router = express.Router();
 
@@ -15,7 +15,7 @@ router.get('/', async (_, res) => {
 });
 
 // Crear una nueva tarea
-router.post('/create', verifyToken, async (req, res) => {
+router.post('/create', authenticateToken, async (req, res) => {
   const { title } = req.body;
   const userId = req.userId;
 
@@ -38,19 +38,27 @@ router.post('/create', verifyToken, async (req, res) => {
 });
 
 // Actualizar una tarea
-router.put('/:id', async (req, res) => {
+router.put('/:id', verifyToken, async (req, res) => {
   const { id } = req.params;
-  const { title, completed, createdBy } = req.body;
+  const { title, completed } = req.body;
+  const userId = req.userId;
 
   try {
-    const updatedTask = await Task.findByIdAndUpdate(
-      id,
-      { title, completed, createdBy },
-      { new: true }
-    );
-    if (!updatedTask) {
+    const task = await Task.findById(id);
+
+    if (!task) {
       return res.status(404).json({ message: 'Task not found' });
     }
+    if (task.createdBy.toString() !== userId) {
+      return res
+        .status(403)
+        .json({ message: 'Not authorized to update this task' });
+    }
+
+    task.title = title || task.title;
+    task.completed = completed || task.completed;
+    const updatedTask = await task.save();
+
     res.json(updatedTask);
   } catch (error) {
     res.status(500).json({ message: error.message });

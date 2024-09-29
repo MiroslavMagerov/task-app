@@ -13,11 +13,22 @@ export const AuthProvider = ({ children }) => {
   const BACKEND_API = import.meta.env.VITE_BACKEND_API_URL;
 
   useEffect(() => {
-    const verifyCookieExistance = async () => {
+    const verifyTokenExistance = async () => {
+      const token = localStorage.getItem('AuthenticationToken');
+
+      if (!token) {
+        console.error('No JWT found');
+        setIsAuthenticated(false);
+        setIsLoading(false);
+        return;
+      }
+
       try {
         const response = await fetch(`${BACKEND_API}/users/verify`, {
           method: 'GET',
-          credentials: 'include',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         });
 
         if (!response.ok) {
@@ -34,10 +45,7 @@ export const AuthProvider = ({ children }) => {
       }
     };
 
-    //verifyCookieExistance();
-
-    setIsAuthenticated(true);
-    setIsLoading(false);
+    verifyTokenExistance();
   }, [BACKEND_API]);
 
   const login = () => {
@@ -45,12 +53,17 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = async () => {
+    const token = localStorage.getItem('AuthenticationToken');
+
+    localStorage.removeItem('AuthenticationToken');
     setIsAuthenticated(false);
 
     try {
       const response = await fetch(`${BACKEND_API}/users/logout`, {
         method: 'POST',
-        credentials: 'include',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
 
       if (!response.ok) {

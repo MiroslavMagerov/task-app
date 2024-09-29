@@ -5,8 +5,9 @@ const BACKEND_API = import.meta.env.VITE_BACKEND_API_URL;
 export const useTasks = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-
   const [tasks, setTasks] = useState([]);
+
+  const token = localStorage.getItem('AuthenticationToken');
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -29,10 +30,17 @@ export const useTasks = () => {
 
   const getTasks = async () => {
     try {
-      const resp = await fetch(`${BACKEND_API}/tasks`);
+      const resp = await fetch(`${BACKEND_API}/tasks`, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
 
       if (!resp.ok) {
         console.error('Error in the fetch');
+        return;
       }
 
       const data = await resp.json();
@@ -54,8 +62,8 @@ export const useTasks = () => {
     try {
       const resp = await fetch(`${BACKEND_API}/tasks/create`, {
         method: 'POST',
-        credentials: 'include',
         headers: {
+          Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(defaultTask),
@@ -63,6 +71,7 @@ export const useTasks = () => {
 
       if (!resp.ok) {
         console.error('Error in the fetch');
+        return;
       }
 
       const data = await resp.json();
