@@ -9,25 +9,27 @@ export const useTasks = () => {
   const [tasks, setTasks] = useState([]);
 
   useEffect(() => {
-    setIsLoading(true);
     const fetchTasks = async () => {
-      const fetchedTasks = await getTasks();
-      if (fetchTasks) {
-        setTasks([setTasks(...tasks, fetchedTasks)]);
+      setIsLoading(true);
+      try {
+        const fetchedTasks = await getTasks();
+        if (fetchedTasks) {
+          setTasks(fetchedTasks);
+        }
+      } catch (error) {
+        setError(error);
+        console.error(error);
+      } finally {
+        setIsLoading(false);
       }
-
-      setIsLoading(false);
     };
 
     fetchTasks();
-  }, [tasks]);
+  }, []);
 
   const getTasks = async () => {
     try {
-      const resp = await fetch(`${BACKEND_API}/tasks`, {
-        method: 'GET',
-        credentials: 'include',
-      });
+      const resp = await fetch(`${BACKEND_API}/tasks`);
 
       if (!resp.ok) {
         console.error('Error in the fetch');
