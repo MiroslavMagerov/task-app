@@ -38,7 +38,7 @@ router.post('/create', authenticateToken, async (req, res) => {
 });
 
 // Actualizar una tarea
-router.put('/:id', verifyToken, async (req, res) => {
+router.put('/:id', authenticateToken, async (req, res) => {
   const { id } = req.params;
   const { title, completed } = req.body;
   const userId = req.userId;
