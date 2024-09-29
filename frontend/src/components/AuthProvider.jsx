@@ -48,7 +48,7 @@ export const AuthProvider = ({ children }) => {
     setIsAuthenticated(false);
 
     try {
-      const response = await fetch(`${BACKEND_API}/logout`, {
+      const response = await fetch(`${BACKEND_API}/users/logout`, {
         method: 'POST',
         credentials: 'include',
       });
