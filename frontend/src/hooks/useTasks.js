@@ -13,14 +13,14 @@ export const useTasks = () => {
     const fetchTasks = async () => {
       const fetchedTasks = await getTasks();
       if (fetchTasks) {
-        setTasks(fetchedTasks);
+        setTasks([setTasks(...tasks, fetchedTasks)]);
       }
 
       setIsLoading(false);
     };
 
     fetchTasks();
-  }, []);
+  }, [tasks]);
 
   const getTasks = async () => {
     try {

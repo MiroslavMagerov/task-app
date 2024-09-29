@@ -8,6 +8,8 @@ import { ProtectedRoute } from './components/ProtectedRoute';
 import { Footer } from './components/Footer';
 
 export const TaskApp = () => {
+  
+
   return (
     <Router>
       <Navbar />
