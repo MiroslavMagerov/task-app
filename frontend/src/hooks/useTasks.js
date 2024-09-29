@@ -76,6 +76,9 @@ export const useTasks = () => {
 
       const data = await resp.json();
       console.log('Task created: ', data);
+
+      const fetchedTasks = await getTasks();
+      setTasks(fetchedTasks);
       return data;
     } catch (error) {
       setError(error);
@@ -83,7 +86,31 @@ export const useTasks = () => {
     }
   };
 
-  return { isLoading, error, tasks, createTask };
+  const deleteTask = async (taskId) => {
+    try {
+      const resp = await fetch(`${BACKEND_API}/tasks/${taskId}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!resp.ok) {
+        console.error('Error in the fetch');
+        return;
+      }
+
+      setTasks((prevTasks) => prevTasks.filter((task) => task._id !== taskId));
+
+      console.log(`Task ${taskId} deleted successfully`);
+    } catch (error) {
+      setError(error);
+      console.error(error);
+    }
+  };
+
+  return { isLoading, error, tasks, createTask, deleteTask };
 };
 
 export default useTasks;

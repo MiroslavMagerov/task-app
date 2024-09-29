@@ -13,37 +13,19 @@ export const AuthProvider = ({ children }) => {
   const BACKEND_API = import.meta.env.VITE_BACKEND_API_URL;
 
   useEffect(() => {
-    const verifyTokenExistance = async () => {
+    const verifyTokenExistance = () => {
       const token = localStorage.getItem('AuthenticationToken');
 
       if (!token) {
-        console.error('No JWT found');
         setIsAuthenticated(false);
         setIsLoading(false);
         return;
       }
-
-      try {
-        const response = await fetch(`${BACKEND_API}/users/verify`, {
-          method: 'GET',
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        if (!response.ok) {
-          console.error('User not logged in', response.statusText);
-          setIsAuthenticated(false);
-        } else {
-          setIsAuthenticated(true);
-        }
-      } catch (error) {
-        setIsAuthenticated(false);
-        console.error(error);
-      } finally {
-        setIsLoading(false);
-      }
+      setIsAuthenticated(true);
+      setIsLoading(false);
     };
+
+    setIsLoading(false);
 
     verifyTokenExistance();
   }, [BACKEND_API]);
@@ -53,28 +35,11 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = async () => {
-    const token = localStorage.getItem('AuthenticationToken');
-
     localStorage.removeItem('AuthenticationToken');
     setIsAuthenticated(false);
 
-    try {
-      const response = await fetch(`${BACKEND_API}/users/logout`, {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (!response.ok) {
-        console.error('Logout failed:', response.statusText);
-      }
-
-      logoutAlert();
-      redirect('/');
-    } catch (error) {
-      console.error('Error during logout:', error);
-    }
+    logoutAlert();
+    redirect('/');
   };
 
   return (

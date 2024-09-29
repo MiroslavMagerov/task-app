@@ -22,6 +22,9 @@ export const TaskPage = () => {
                   {task.title} - Created by {task.createdBy} at{' '}
                   {new Date(task.createdAt).toLocaleString()}. Status:{' '}
                   {task.completed ? 'Completed' : 'Not completed'}
+                  <button onClick={() => useTasksHook.deleteTask(task._id)}>
+                    Delete
+                  </button>
                 </li>
               ))}
             </ul>
