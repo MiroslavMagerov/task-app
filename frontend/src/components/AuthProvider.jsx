@@ -15,7 +15,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const verifyCookieExistance = async () => {
       try {
-        const response = await fetch(`${BACKEND_API}/verify`, {
+        const response = await fetch(`${BACKEND_API}/users/verify`, {
           method: 'GET',
           credentials: 'include',
         });
@@ -34,7 +34,10 @@ export const AuthProvider = ({ children }) => {
       }
     };
 
-    verifyCookieExistance();
+    //verifyCookieExistance();
+
+    setIsAuthenticated(true);
+    setIsLoading(false);
   }, [BACKEND_API]);
 
   const login = () => {

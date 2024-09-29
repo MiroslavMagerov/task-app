@@ -1,5 +1,6 @@
 import express from 'express';
 import Task from '../models/Task.js';
+import verifyToken from '../middleware/verifyToken.js';
 
 const router = express.Router();
 
@@ -14,20 +15,25 @@ router.get('/', async (_, res) => {
 });
 
 // Crear una nueva tarea
-router.post('/', async (req, res) => {
-  const { title, completed, createdBy } = req.body;
-
-  const task = new Task({
-    title,
-    completed: completed || false,
-    createdBy,
-  });
+router.post('/create', verifyToken, async (req, res) => {
+  const { title } = req.body;
+  const userId = req.userId;
 
   try {
+    const task = new Task({
+      title,
+      createdBy: userId,
+    });
+
     const savedTask = await task.save();
     res.status(201).json(savedTask);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.log(error);
+    if (error.code === 11000) {
+      res.status(400).json({ message: 'Task with this title already exists' });
+    } else {
+      res.status(500).json({ message: 'Error when creating the task' });
+    }
   }
 });
 

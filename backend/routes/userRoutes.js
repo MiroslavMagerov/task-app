@@ -52,7 +52,7 @@ router.post('/login', async (req, res) => {
     );
 
     // Envia la cookie al cliente
-    res.cookie('token', token, {
+    res.cookie('AuthenticationCookie', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'strict',
@@ -88,7 +88,7 @@ router.post('/register', async (req, res) => {
 
 router.post('/logout', (_, res) => {
   try {
-    res.clearCookie('token');
+    res.clearCookie('AuthenticationCookie');
     res.status(200).json({ message: 'Successfull logout' });
   } catch (error) {
     console.error(error.message);
@@ -97,8 +97,18 @@ router.post('/logout', (_, res) => {
 });
 
 router.get('/verify', (req, res) => {
-  if (req.cookies.token) {
-    return res.status(200).json({ message: 'User is authenticated' });
+  if (req.cookies.AuthenticationCookie) {
+    try {
+      const decoded = jwt.verify(
+        req.cookies.AuthenticationCookie,
+        process.env.JWT_SECRET
+      );
+      return res
+        .status(200)
+        .json({ message: 'User is authenticated', userId: decoded.id });
+    } catch (error) {
+      return res.status(401).json({ message: 'Invalid token' });
+    }
   } else {
     return res.status(401).json({ message: 'Not authenticated' });
   }

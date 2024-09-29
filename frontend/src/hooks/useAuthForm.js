@@ -56,7 +56,7 @@ export const useAuthForm = () => {
     );
 
     try {
-      const resp = await fetch(`${BACKEND_API}/${loginOrRegister}`, {
+      const resp = await fetch(`${BACKEND_API}/users/${loginOrRegister}`, {
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
