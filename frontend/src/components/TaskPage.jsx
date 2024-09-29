@@ -7,14 +7,20 @@ export const TaskPage = () => {
   return (
     <div className='task-list'>
       <h1>Task List</h1>
-      {useTasksHook.tasks.map((task) => (
-        <li key={task.title}>
-          {task.title} - Created by {task.createdBy} at {task.createdAt}. Status{' '}
-          {task.completed}
-        </li>
-      ))}
+      {useTasksHook.isLoading ? (
+        <h2>Loading...</h2>
+      ) : (
+        useTasksHook.tasks.map((task) => (
+          <li key={task.title}>
+            {task.title} - Created by {task.createdBy} at {task.createdAt}.
+            Status {task.completed}
+          </li>
+        ))
+      )}
 
-      <button onClick={useTasksHook.createTask}>Add default task</button>
+      <button onClick={() => useTasksHook.createTask('Default task')}>
+        Add default task
+      </button>
     </div>
   );
 };

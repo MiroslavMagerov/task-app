@@ -9,7 +9,17 @@ export const useTasks = () => {
   const [tasks, setTasks] = useState([]);
 
   useEffect(() => {
-    setTasks(getTasks());
+    setIsLoading(true);
+    const fetchTasks = async () => {
+      const fetchedTasks = await getTasks();
+      if (fetchTasks) {
+        setTasks(fetchedTasks);
+      }
+
+      setIsLoading(false);
+    };
+
+    fetchTasks();
   }, []);
 
   const getTasks = async () => {
@@ -40,7 +50,7 @@ export const useTasks = () => {
     };
 
     try {
-      const resp = await fetch(`${BACKEND_API}/tasks`, {
+      const resp = await fetch(`${BACKEND_API}/tasks/create`, {
         method: 'POST',
         credentials: 'include',
         headers: {
