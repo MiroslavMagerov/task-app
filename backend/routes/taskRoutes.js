@@ -18,7 +18,6 @@ router.get('/', async (_, res) => {
 router.post('/create', authenticateToken, async (req, res) => {
   const { title } = req.body;
   const userId = req.userId;
-  console.log(req.userId);
 
   try {
     const task = new Task({
