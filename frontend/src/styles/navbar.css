@@ -12,7 +12,8 @@ nav {
   padding: 3px 20%;
 }
 
-nav h1 {
+.taskly-navbar {
+  font-weight: bolder;
   color: rgb(3, 190, 3);
   letter-spacing: 5px;
   font-size: 2em;

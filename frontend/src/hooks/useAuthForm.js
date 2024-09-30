@@ -17,6 +17,7 @@ export const useAuthForm = () => {
 
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
+  const [isFetching, setIsFetching] = useState(false);
 
   const BACKEND_API = import.meta.env.VITE_BACKEND_API_URL;
 
@@ -41,6 +42,7 @@ export const useAuthForm = () => {
   };
 
   const handleSubmitForm = async (e) => {
+    setIsFetching(true);
     e.preventDefault();
     setError('');
     setSuccessMessage('');
@@ -85,6 +87,8 @@ export const useAuthForm = () => {
     } catch (error) {
       setError('Connection error. Try again later.');
       console.error(error);
+    } finally {
+      setIsFetching(false);
     }
   };
 
@@ -134,5 +138,6 @@ export const useAuthForm = () => {
     handleSubmitForm,
     handleBlur,
     handleFocus,
+    isLoading: isFetching,
   };
 };

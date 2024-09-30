@@ -19,7 +19,7 @@ export const Navbar = () => {
 
   return (
     <nav>
-      <h1>TASKLY</h1>
+      <Link to='/' className='taskly-navbar'>TASKLY</Link>
       <div className='links-div'>
         <Link to='/'>Home</Link>
         <Link to='/tasks' onClick={handleTasksPageClick}>

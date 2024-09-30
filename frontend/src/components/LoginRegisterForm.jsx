@@ -75,8 +75,12 @@ export const LoginRegisterForm = () => {
         </button>
       </form>
       <div className='info-div'>
-        {authForm.successMessage && (
-          <p className='success'>{authForm.successMessage}</p>
+        {authForm.isLoading ? (
+          <h2>Loading...</h2>
+        ) : (
+          authForm.successMessage && (
+            <p className='success'>{authForm.successMessage}</p>
+          )
         )}
         {authForm.error && <p className='error'>{authForm.error}</p>}
       </div>

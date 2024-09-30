@@ -1,40 +1,54 @@
+import { useState } from 'react';
 import useTasks from '../hooks/useTasks';
 import '../styles/taskPage.css';
+import { TaskItem } from './TaskItem';
 
 export const TaskPage = () => {
+  const [newTaskTitle, setNewTaskTitle] = useState('');
+
   const useTasksHook = useTasks();
 
   return (
-    <div className='task-list'>
-      <h1>Task List</h1>
+    <div className='task-container'>
+      <h1>Tasks</h1>
       {useTasksHook.isLoading ? (
         <h2>Loading...</h2>
       ) : (
         <>
-          {useTasksHook.tasks.length === 0 ? (
-            <h2>Empty tasks</h2>
-          ) : (
-            <ul>
-              {useTasksHook.tasks.map((task) => (
-                <li key={task._id}>
-                  {' '}
-                  {/* Usar un ID único en lugar de title */}
-                  {task.title} - Created by {task.createdBy} at{' '}
-                  {new Date(task.createdAt).toLocaleString()}. Status:{' '}
-                  {task.completed ? 'Completed' : 'Not completed'}
-                  <button onClick={() => useTasksHook.deleteTask(task._id)}>
-                    Delete
-                  </button>
-                </li>
-              ))}
-            </ul>
-          )}
+          <div className='task-headers'>
+            <span>Title</span>
+            <span>Created By</span>
+            <span>Status</span>
+            <span>Created At</span>
+            <span>Actions</span>
+          </div>
+          <ul className='task-list'>
+            {useTasksHook.tasks.map((task) => (
+              <TaskItem
+                key={task._id}
+                task={task}
+                deleteTask={useTasksHook.deleteTask}
+              />
+            ))}
+          </ul>
         </>
       )}
 
-      <button onClick={() => useTasksHook.createTask('Default task')}>
-        Add default task
-      </button>
+      <div className='create-task-div'>
+        <input
+          type='text'
+          value={newTaskTitle}
+          placeholder='Enter the title of the new task'
+          onChange={(e) => setNewTaskTitle(e.target.value)}
+        ></input>
+        <button
+          onClick={() => (
+            useTasksHook.createTask(newTaskTitle), setNewTaskTitle('')
+          )}
+        >
+          Add task
+        </button>
+      </div>
     </div>
   );
 };

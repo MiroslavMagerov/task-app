@@ -55,6 +55,11 @@ export const useTasks = () => {
   };
 
   const createTask = async (title) => {
+    if (title.trim().length === 0) {
+      console.error('Cannot create a task with empty title');
+      return;
+    }
+
     const defaultTask = {
       title,
     };

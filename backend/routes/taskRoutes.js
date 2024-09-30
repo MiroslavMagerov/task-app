@@ -18,6 +18,7 @@ router.get('/', async (_, res) => {
 router.post('/create', authenticateToken, async (req, res) => {
   const { title } = req.body;
   const userId = req.userId;
+  console.log(req.userId);
 
   try {
     const task = new Task({
@@ -26,6 +27,7 @@ router.post('/create', authenticateToken, async (req, res) => {
     });
 
     const savedTask = await task.save();
+    console.log(savedTask);
     res.status(201).json(savedTask);
   } catch (error) {
     console.log(error);
