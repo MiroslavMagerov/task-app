@@ -7,7 +7,7 @@ const router = express.Router();
 // Obtener todas las tareas
 router.get('/', async (_, res) => {
   try {
-    const tasks = await Task.find();
+    const tasks = await Task.find().populate('createdBy', 'username');
     res.json(tasks);
   } catch (error) {
     res.status(500).json({ message: error.message });

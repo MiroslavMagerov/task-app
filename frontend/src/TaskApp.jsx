@@ -2,14 +2,12 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Navbar } from './components/Navbar';
 import { LandingPage } from './components/LandingPage';
 import { LoginRegisterForm } from './components/LoginRegisterForm';
-import { TaskPage } from './components/TaskPage';
+import { TaskPage } from './components/Tasks/TaskPage';
 import { About } from './components/About';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { Footer } from './components/Footer';
 
 export const TaskApp = () => {
-  
-
   return (
     <Router>
       <Navbar />
